@@ -186,8 +186,8 @@ export function ChatInterface() {
           {/* Typing indicator shown while the AI is generating a response */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3">
-                <span className="flex gap-1 items-center text-muted-foreground text-xs">
+              <div className="bg-white/60 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
+                <span className="flex gap-1 items-center text-stone-500 text-xs">
                   <span className="animate-bounce [animation-delay:0ms]">•</span>
                   <span className="animate-bounce [animation-delay:150ms]">•</span>
                   <span className="animate-bounce [animation-delay:300ms]">•</span>

@@ -53,7 +53,7 @@ export function PromptInput({
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Ask anything… (Shift+Enter for newline)"
-        className="resize-none min-h-[52px] max-h-[200px] flex-1"
+        className="resize-none min-h-[52px] max-h-[200px] flex-1 text-stone-800 placeholder:text-stone-500"
         disabled={isLoading}
         rows={1}
       />
