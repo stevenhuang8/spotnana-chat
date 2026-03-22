@@ -64,11 +64,9 @@ export function ChatInterface() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Persist the session whenever the message count increases.
-  // This ensures partial sessions (user sent, AI mid-stream) are not lost
-  // if the user closes the tab before the response finishes.
+  // Persist the session when streaming completes so the full AI response is saved.
   useEffect(() => {
-    if (messages.length === 0) return;
+    if (isLoading || messages.length === 0) return;
 
     const sessionId = activeSessionId ?? generateId();
     const session: ChatSession = {
@@ -91,7 +89,7 @@ export function ChatInterface() {
       setActiveSessionId(sessionId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages.length]);
+  }, [isLoading]);
 
   function handleNew() {
     const id = generateId();
