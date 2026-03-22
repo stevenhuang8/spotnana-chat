@@ -56,6 +56,7 @@ export function ChatInterface() {
 
   const isLoading = status === "streaming";
   const bottomRef = useRef<HTMLDivElement>(null);
+  const lastInputRef = useRef<string>("");
 
   // Auto-scroll to the latest message on every update.
   // "smooth" keeps the scroll visually fluid during token streaming.
@@ -133,9 +134,18 @@ export function ChatInterface() {
   // the UIMessage structure that DefaultChatTransport sends to the API.
   const handleSubmit = useCallback(() => {
     if (!input.trim() || isLoading) return;
+    lastInputRef.current = input;
     sendMessage({ text: input });
     setInput("");
   }, [input, isLoading, sendMessage]);
+
+  const handleRetry = useCallback(() => {
+    if (!lastInputRef.current) return;
+    setMessages((prev) =>
+      prev[prev.length - 1]?.role === "assistant" ? prev.slice(0, -1) : prev
+    );
+    sendMessage({ text: lastInputRef.current });
+  }, [sendMessage, setMessages]);
 
   return (
     <div className="flex flex-row h-full rounded-2xl overflow-hidden bg-black/50 backdrop-blur-sm border border-white/10 shadow-2xl">
@@ -192,8 +202,14 @@ export function ChatInterface() {
           )}
 
           {error && (
-            <div className="text-xs text-red-400 bg-red-400/10 rounded-lg px-3 py-2 text-center">
-              Something went wrong. Please try again.
+            <div className="flex flex-col items-center gap-2 text-xs text-red-400 bg-red-400/10 rounded-lg px-3 py-2 text-center">
+              <span>Something went wrong. Please try again.</span>
+              <button
+                onClick={handleRetry}
+                className="underline hover:text-red-300 transition-colors"
+              >
+                Retry
+              </button>
             </div>
           )}
 
