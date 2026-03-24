@@ -78,7 +78,7 @@ export function ChatInterface() {
           .join("") || "New chat"
       ),
       messages: messages as ChatSession["messages"],
-      createdAt: Date.now(),
+      createdAt: activeSession?.createdAt ?? Date.now(),
       updatedAt: Date.now(),
     };
     saveSession(session);
