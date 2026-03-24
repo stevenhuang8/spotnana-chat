@@ -1,6 +1,6 @@
 "use client";
 
-import { ChatSession, deleteSession } from "@/lib/chat-storage";
+import { ChatSession } from "@/lib/chat-storage";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Trash2, Plus, MessageSquare } from "lucide-react";
