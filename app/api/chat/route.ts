@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   const modelMessages = await convertToModelMessages(messages);
 
   const result = streamText({
-    model: openai("gpt-4o-mini"),
+    model: openai("gpt-5.2"),
     system:
       "You are a helpful, concise assistant. Answer clearly and accurately. Use markdown formatting where appropriate.",
     messages: modelMessages,

@@ -18,12 +18,11 @@ The AI SDK was selected over raw `fetch` to the OpenAI REST API for three reason
 ### shadcn/ui + Tailwind CSS
 shadcn/ui provides unstyled, composable components (Button, Textarea, Separator, ScrollArea) built on Radix UI primitives. The key advantage over a library like MUI or Chakra is that components are **copied into the project** rather than imported from a package — meaning full ownership, no runtime overhead, and no version-lock conflicts. Tailwind handles all styling via utility classes, which keeps CSS co-located with markup and eliminates dead CSS.
 
-### `gpt-4o-mini` model
-`gpt-4o-mini` is used instead of `gpt-4o` or `gpt-4-turbo` because:
-- It is significantly cheaper per token (~15x less than `gpt-4o`).
-- Latency is lower, which makes streaming feel more responsive.
-- For a general-purpose chat assistant, the quality difference is negligible for most queries.
-- If more reasoning depth is needed, swapping to `gpt-4o` is a one-line change.
+### `gpt-5.2` model
+The model was upgraded from `gpt-4o-mini` to `gpt-5.2`. See `Documentation/model-upgrade-gpt5.2.md` for the full tradeoff analysis. In summary:
+- `gpt-5.2` provides significantly stronger reasoning, a larger context window, and better performance on multi-step agentic tasks.
+- For a travel management context (Spotnana), accuracy and policy reasoning depth outweigh the higher per-token cost.
+- The change was a single line in `app/api/chat/route.ts`.
 
 ---
 
