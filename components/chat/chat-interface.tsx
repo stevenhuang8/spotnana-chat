@@ -50,7 +50,7 @@ export function ChatInterface() {
   // AI SDK v6 uses DefaultChatTransport for routing.
   // This separates the transport concern from the hook itself,
   // making it easier to swap endpoints or add headers without touching hook logic.
-  const { messages, status, sendMessage, setMessages, error } = useChat({
+  const { messages, status, sendMessage, setMessages, stop, error } = useChat({
     transport: new DefaultChatTransport({ api: "/api/chat" }),
   });
 
@@ -181,7 +181,7 @@ export function ChatInterface() {
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center gap-2">
               <p className="text-sm font-medium text-white/80">Start a conversation</p>
-              <p className="text-xs text-white/50">Ask me anything and I&apos;ll help you out!</p>
+              <p className="text-sm text-white/80">Ask me anything and I&apos;ll help you out!</p>
             </div>
           )}
 
@@ -223,6 +223,7 @@ export function ChatInterface() {
             isLoading={isLoading}
             onChange={setInput}
             onSubmit={handleSubmit}
+            onStop={stop}
           />
         </div>
       </div>

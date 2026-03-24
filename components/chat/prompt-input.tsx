@@ -3,7 +3,7 @@
 import { useRef, useCallback, KeyboardEvent } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { SendHorizonal, Loader2 } from "lucide-react";
+import { SendHorizonal, Square } from "lucide-react";
 
 const CHAR_LIMIT = 8000;
 
@@ -12,6 +12,7 @@ interface PromptInputProps {
   isLoading: boolean;
   onChange: (value: string) => void;
   onSubmit: () => void;
+  onStop: () => void;
 }
 
 export function PromptInput({
@@ -19,6 +20,7 @@ export function PromptInput({
   isLoading,
   onChange,
   onSubmit,
+  onStop,
 }: PromptInputProps) {
   // Track last submit timestamp to guard against rapid double-sends.
   // Using a ref (not state) so the timestamp update never triggers a re-render.
@@ -34,7 +36,7 @@ export function PromptInput({
     if (!input.trim() || isLoading || isOverLimit) return;
     lastSubmitRef.current = now;
     onSubmit();
-  }, [input, isLoading, onSubmit]);
+  }, [input, isLoading, isOverLimit, onSubmit]);
 
   // Enter sends; Shift+Enter inserts a newline.
   // This matches the chat UX convention users expect from apps like Slack and ChatGPT.
@@ -57,23 +59,31 @@ export function PromptInput({
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask anything… (Shift+Enter for newline)"
-          className="resize-none min-h-[52px] max-h-[200px] flex-1 text-stone-800 placeholder:text-stone-500"
+          className="resize-none min-h-[52px] max-h-[200px] flex-1 text-stone-50 placeholder:text-stone-50"
           disabled={isLoading}
           rows={1}
         />
-        <Button
-          onClick={handleSubmit}
-          disabled={!input.trim() || isLoading || isOverLimit}
-          size="icon"
-          className="shrink-0 h-[52px] w-[52px]"
-          title="Send message"
-        >
-          {isLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
+        {isLoading ? (
+          <Button
+            onClick={onStop}
+            size="icon"
+            variant="destructive"
+            className="shrink-0 h-[52px] w-[52px]"
+            title="Stop generating"
+          >
+            <Square className="w-4 h-4 fill-current" />
+          </Button>
+        ) : (
+          <Button
+            onClick={handleSubmit}
+            disabled={!input.trim() || isOverLimit}
+            size="icon"
+            className="shrink-0 h-[52px] w-[52px]"
+            title="Send message"
+          >
             <SendHorizonal className="w-4 h-4" />
-          )}
-        </Button>
+          </Button>
+        )}
       </div>
       <div className="flex justify-end items-center gap-2 px-1">
         {isOverLimit && (
