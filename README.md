@@ -65,7 +65,7 @@ DECISIONS.md              # Engineering decision log
 | Layer | Choice |
 |---|---|
 | Framework | Next.js 15 (App Router) |
-| AI | Vercel AI SDK + OpenAI `gpt-4o-mini` |
+| AI | Vercel AI SDK + OpenAI `gpt-5.2` |
 | UI | shadcn/ui + Tailwind CSS v4 |
 | Persistence | Browser `localStorage` |
 | Markdown | `react-markdown` |
